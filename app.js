@@ -25,9 +25,20 @@ app.get('/', (req, res) => {
 app.get('/beers', (req, res) => {
   punkAPI
   .getBeers()
-  .then(beersFromApi => console.log('Beers from the database: ', beersFromApi))
+  .then(beersFromApi => {
+   res.render('beers', { beers: beersFromApi })
+   console.log('Beers from the database: ', beersFromApi)
+  })
   .catch(error => console.log(error));
-  res.render('beers')
 })
+
+app.get('/random-beer', (req, res) => {
+  punkAPI
+    .getRandom()
+    .then(randomBeer => {
+      res.render('random-beer', { beer: randomBeer[0] });
+    })
+    .catch(error => console.log(error));
+});
 
 app.listen(3000, () => console.log('🏃‍ on port 3000'));
